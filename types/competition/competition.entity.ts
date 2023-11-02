@@ -1,4 +1,4 @@
 export interface CompetitionEntity {
-    id?: string;
+    id: string;
     name: string;
 }
