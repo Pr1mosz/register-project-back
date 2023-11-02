@@ -1,6 +1,9 @@
-import {CompetitorEntity} from "../types";
+import {CompetitorEntity, NewCompetitorEntity} from "../types";
 import {ValidationError} from "../utils/errors";
+import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
 
+type CompetitorRecordResults = [CompetitorEntity[], FieldPacket[]]
 export class CompetitorRecord implements CompetitorEntity {
     public id: string;
     public firstName: string;
@@ -10,10 +13,13 @@ export class CompetitorRecord implements CompetitorEntity {
     public mail: string;
     public city: string;
     public club: string;
-
-    constructor(obj: CompetitorEntity) {
+    constructor(obj: NewCompetitorEntity) {
         if (!obj.firstName || obj.firstName.length > 50) {
             throw new ValidationError('Imię nie może być puste, ani przekraczać 50 znaków.')
+        }
+
+        if (!obj.lastName || obj.lastName.length > 10) {
+            throw new ValidationError('Nazwisko nie może być puste, ani przekraczać 100 znaków.')
         }
 
         if (obj.yearOfBirth < 1900 || obj.yearOfBirth > 2020) {
@@ -31,6 +37,14 @@ export class CompetitorRecord implements CompetitorEntity {
         this.city = obj.city;
         this.club = obj.club;
 
+    }
+
+    static async getOne(id: string): Promise<CompetitorRecord | null> {
+        const [results] = await pool.execute("SELECT * FROM `competitors` WHERE id = :id", {
+            id,
+        }) as CompetitorRecordResults;
+
+        return results.length === 0 ? null : new CompetitorRecord(results[0]);
     }
 
 

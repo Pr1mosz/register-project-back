@@ -1,3 +1,7 @@
+export interface NewCompetitorEntity extends Omit<CompetitorEntity, 'id'> {
+    id?: string;
+}
+
 export interface CompetitorEntity {
     id: string;
     firstName: string;
