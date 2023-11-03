@@ -1,6 +1,9 @@
 import {CompetitionEntity} from "../types";
 import {ValidationError} from "../utils/errors";
+import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
 
+type CompetitionRecordResults = [CompetitionEntity[], FieldPacket[]]
 export class CompetitionRecord implements CompetitionEntity {
     public id: string;
     public name: string;
@@ -16,5 +19,10 @@ export class CompetitionRecord implements CompetitionEntity {
         this.name = obj.name;
         this.date = obj.date;
         this.typeOfRun = obj.typeOfRun;
+    }
+
+    static async listAll(): Promise<CompetitionRecord[]> {
+        const [results] = await pool.execute("SELECT * FROM `competitions` ORDER BY `date` ASC") as CompetitionRecordResults;
+        return results.map(obj => new CompetitionRecord(obj))
     }
 }
