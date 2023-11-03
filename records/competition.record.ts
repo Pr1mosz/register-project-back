@@ -1,7 +1,8 @@
-import {CompetitionEntity} from "../types";
+import {CompetitionEntity, NewCompetitionEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
+import {v4 as uuid} from 'uuid';
 
 type CompetitionRecordResults = [CompetitionEntity[], FieldPacket[]]
 export class CompetitionRecord implements CompetitionEntity {
@@ -10,7 +11,7 @@ export class CompetitionRecord implements CompetitionEntity {
     public date: string;
     public typeOfRun: string;
 
-    constructor(obj: CompetitionEntity) {
+    constructor(obj: NewCompetitionEntity) {
         if (!obj.name || obj.name.length > 100) {
             throw new ValidationError('Nazwa zawodów nie może być pusta, ani przekraczać 100 znaków.')
         }
@@ -21,8 +22,24 @@ export class CompetitionRecord implements CompetitionEntity {
         this.typeOfRun = obj.typeOfRun;
     }
 
+
+    static async getOne(id: string): Promise<CompetitionRecord | null> {
+        const [results] = await pool.execute("SELECT * FROM `competitions` WHERE `id` = :id", {
+            id,
+        }) as CompetitionRecordResults;
+        return results.length === 0 ? null : new CompetitionRecord(results[0]);
+    }
     static async listAll(): Promise<CompetitionRecord[]> {
         const [results] = await pool.execute("SELECT * FROM `competitions` ORDER BY `date` ASC") as CompetitionRecordResults;
         return results.map(obj => new CompetitionRecord(obj))
+    }
+
+    async insert():Promise<void> {
+        if (!this.id) {
+            this.id = uuid();
+        } else {
+            throw new ValidationError('Cannot insert something that is already inserted!');
+        }
+        await pool.execute("INSERT INTO `competitions`(`id`, `name`, `date`, `typeOfRun`) VALUES(:id, :name, :date, :typeOfRun)", this);
     }
 }
