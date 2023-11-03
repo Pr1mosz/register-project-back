@@ -1,4 +1,9 @@
 import {CompetitorRecord} from "../records/competitor.record";
+import {pool} from "../utils/db";
+
+afterAll(async () => {
+    await pool.end();
+});
 
 test('CompetitorRecord.getOne returns data from database for one entry', async () => {
     const competitor = await CompetitorRecord.getOne('12354');
