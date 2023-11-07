@@ -1,7 +1,7 @@
 import {CompetitionEntity} from "./competition.entity";
-import {CompetitorEntity} from "../competitor";
+import {CompetitorEntity, SimpleCompetitorEntity} from "../competitor";
 
 export interface GetSingleCompetitionRes {
     competition: CompetitionEntity;
-    competitorsList: CompetitorEntity[];
+    competitorsList: SimpleCompetitorEntity[];
 }

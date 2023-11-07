@@ -1,4 +1,4 @@
-import {CompetitorEntity, CompetitorSex, NewCompetitorEntity} from "../types";
+import {CompetitorEntity, CompetitorSex, NewCompetitorEntity, SimpleCompetitorEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
@@ -48,11 +48,14 @@ export class CompetitorRecord implements CompetitorEntity {
         return results.length === 0 ? null : new CompetitorRecord(results[0]);
     }
 
-    static async listAllCompetitorRegisteredOnCompetition(competitionId: string): Promise<CompetitorRecord[]> {
+    static async listAllCompetitorRegisteredOnCompetition(competitionId: string): Promise<SimpleCompetitorEntity[]> {
         const [results] = await pool.execute("SELECT * FROM `competitors` WHERE `competitionId` = :competitionId", {
             competitionId,
         }) as CompetitorRecordResults;
-        return results.map(obj => new CompetitorRecord(obj));
+        return results.map(result => {
+            const {id, firstName, lastName, sex, club, city, competitionId} = result;
+            return {id, firstName, lastName, sex, club, city, competitionId}
+        });
     }
 
 

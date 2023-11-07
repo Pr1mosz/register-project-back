@@ -7,14 +7,17 @@ export enum CompetitorSex {
     women = 'K'
 }
 
-export interface CompetitorEntity {
+export interface SimpleCompetitorEntity {
     id: string;
     firstName: string;
     lastName: string;
     sex: CompetitorSex;
-    mail: string;
-    yearOfBirth: number;
     club: string;
     city: string;
     competitionId: string;
+}
+
+export interface CompetitorEntity extends SimpleCompetitorEntity{
+    mail: string;
+    yearOfBirth: number;
 }
