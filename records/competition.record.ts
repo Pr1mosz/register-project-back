@@ -9,6 +9,7 @@ export class CompetitionRecord implements CompetitionEntity {
     public id: string;
     public name: string;
     public date: string;
+    public city: string;
     public typeOfRun: string;
 
     constructor(obj: NewCompetitionEntity) {
@@ -20,6 +21,7 @@ export class CompetitionRecord implements CompetitionEntity {
         this.name = obj.name;
         this.date = obj.date;
         this.typeOfRun = obj.typeOfRun;
+        this.city = obj.city;
     }
 
 
@@ -40,6 +42,6 @@ export class CompetitionRecord implements CompetitionEntity {
         } else {
             throw new ValidationError('Cannot insert something that is already inserted!');
         }
-        await pool.execute("INSERT INTO `competitions`(`id`, `name`, `date`, `typeOfRun`) VALUES(:id, :name, :date, :typeOfRun)", this);
+        await pool.execute("INSERT INTO `competitions`(`id`, `name`, `date`, `city`, `typeOfRun`) VALUES(:id, :name, :date, :city, :typeOfRun)", this);
     }
 }

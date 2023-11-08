@@ -5,5 +5,6 @@ export interface CompetitionEntity {
     id: string;
     name: string;
     date: string;
+    city: string;
     typeOfRun: string;
 }
