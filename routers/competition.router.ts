@@ -19,3 +19,9 @@ export const competitionRouter = Router()
             competitorsList,
         } as GetSingleCompetitionRes);
     })
+
+    .post('/', async (req, res) => {
+        const competition = new CompetitionRecord(req.body);
+        await competition.insert();
+        res.json(competition);
+    });
