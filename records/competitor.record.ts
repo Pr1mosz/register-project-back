@@ -2,6 +2,7 @@ import {CompetitorEntity, CompetitorSex, NewCompetitorEntity, SimpleCompetitorEn
 import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
+import {v4 as uuid} from 'uuid';
 
 type CompetitorRecordResults = [CompetitorEntity[], FieldPacket[]]
 export class CompetitorRecord implements CompetitorEntity {
@@ -58,7 +59,14 @@ export class CompetitorRecord implements CompetitorEntity {
         });
     }
 
-
+    async insert():Promise<void> {
+        if (!this.id) {
+            this.id = uuid();
+        } else {
+            throw new ValidationError('Cannot insert something that is already inserted!');
+        }
+        await pool.execute("INSERT INTO `competitors`(`id`, `firstName`, `lastName`, `sex`, `yearOfBirth`, `mail`, `city`, `club`, `competitionId`) VALUES(:id, :firstName, :lastName, :sex, :yearOfBirth, :mail, :city, :club, :competitionId)", this);
+    }
 
 
 }

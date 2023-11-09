@@ -3,6 +3,7 @@ import cors from 'cors';
 import 'express-async-errors';
 import {handleError} from "./utils/errors";
 import {competitionRouter} from "./routers/competition.router";
+import {competitorRouter} from "./routers/competitor.router";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/competition', competitionRouter);
+app.use('/competitor', competitorRouter);
 
 app.use(handleError);
 
