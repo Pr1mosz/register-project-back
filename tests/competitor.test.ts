@@ -6,11 +6,11 @@ afterAll(async () => {
 });
 
 test('CompetitorRecord.getOne returns data from database for one entry', async () => {
-    const competitor = await CompetitorRecord.getOne('12354');
+    const competitor = await CompetitorRecord.getOne('3c381627-9bfa-4fdc-a73c-abe75d7d04bf');
 
     expect(competitor).toBeDefined();
-    expect(competitor.id).toBe('12354');
-    expect(competitor.yearOfBirth).toBe(1985);
+    expect(competitor.id).toBe('3c381627-9bfa-4fdc-a73c-abe75d7d04bf');
+    expect(competitor.yearOfBirth).toBe(1954);
 });
 
 test('CompetitorRecord.getOne returns null form database for unexisting entry.', async () => {
@@ -20,7 +20,7 @@ test('CompetitorRecord.getOne returns null form database for unexisting entry.',
 });
 
 test('CompetitorRecord.listAllCompetitorRegisteredOnCompetition returns array of found entries', async () => {
-    const competitors = await CompetitorRecord.listAllCompetitorRegisteredOnCompetition('23456');
+    const competitors = await CompetitorRecord.listAllCompetitorRegisteredOnCompetition('d6d71995-f984-44f1-96d7-ccab7973cdd8');
 
     expect(competitors).not.toEqual([]);
     expect(competitors[0].id).toBeDefined();

@@ -6,7 +6,7 @@ import {GetSingleCompetitionRes} from "../types";
 export const competitionRouter = Router()
 
     .get('/', async (req, res) => {
-        const competitionList = await CompetitionRecord.listAll()
+        const competitionList = await CompetitionRecord.listAll();
         res.json({competitionList});
     })
 

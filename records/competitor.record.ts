@@ -17,18 +17,20 @@ export class CompetitorRecord implements CompetitorEntity {
     public competitionId: string;
     constructor(obj: NewCompetitorEntity) {
         if (!obj.firstName || obj.firstName.length > 30) {
-            throw new ValidationError('Imię nie może być puste, ani przekraczać 30 znaków.')
+            throw new ValidationError('Imię nie może być puste, ani przekraczać 30 znaków.');
         }
 
         if (!obj.lastName || obj.lastName.length > 50) {
-            throw new ValidationError('Nazwisko nie może być puste, ani przekraczać 50 znaków.')
+            throw new ValidationError('Nazwisko nie może być puste, ani przekraczać 50 znaków.');
         }
 
         if (obj.yearOfBirth < 1900 || obj.yearOfBirth > 2020) {
-            throw new ValidationError('Rok urodzenia musi być z przedziału od 1900 do 2020.')
+            throw new ValidationError('Rok urodzenia musi być z przedziału od 1900 do 2020.');
         }
 
-        // @TODO: Validate all property of competitor class
+        if (!obj.mail.includes('@')) {
+            throw new ValidationError('Mail musi byś poprawnym adresem mailowym');
+        }
 
         this.id = obj.id;
         this.firstName = obj.firstName;

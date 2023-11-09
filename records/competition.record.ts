@@ -14,7 +14,19 @@ export class CompetitionRecord implements CompetitionEntity {
 
     constructor(obj: NewCompetitionEntity) {
         if (!obj.name || obj.name.length > 100) {
-            throw new ValidationError('Nazwa zawodów nie może być pusta, ani przekraczać 100 znaków.')
+            throw new ValidationError('Nazwa zawodów nie może być pusta, ani przekraczać 100 znaków.');
+        }
+
+        if (!obj.date) {
+            throw new ValidationError('Data nie może być pusta');
+        }
+
+        if (!obj.city || obj.city.length > 50) {
+            throw new ValidationError('Miasto nie może być puste, ani przekraczać 50 znaków.');
+        }
+
+        if (!obj.typeOfRun || obj.typeOfRun.length > 50) {
+            throw new ValidationError('Rodzaj biegu nie może być pusty, ani przekraczać 50 znaków.');
         }
 
         this.id = obj.id;

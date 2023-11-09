@@ -5,6 +5,7 @@ const defaultObj = {
     name: '[test] Bieg Świętojański',
     date: '2023-11-20',
     typeOfRun: 'bieg uliczny',
+    city: 'Gdynia',
 }
 
 afterAll(async () => {

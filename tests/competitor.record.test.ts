@@ -59,4 +59,9 @@ test('Validates invalid year of birth', () => {
 });
 
 
-// @TODO: Check all the validations
+test('Validates invalid mail', () => {
+    expect(() => new CompetitorRecord({
+        ...defaultObj,
+        mail: 'abc',
+    })).toThrow('Mail musi byś poprawnym adresem mailowym')
+})
