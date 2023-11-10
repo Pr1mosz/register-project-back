@@ -12,6 +12,19 @@ afterAll(async () => {
     await pool.end();
 });
 
+test('CompetitionRecord.getOne returns data from database for one entry', async () => {
+    const competition = await CompetitionRecord.getOne('d6d71995-f984-44f1-96d7-ccab7973cdd8');
+
+    expect(competition).toBeDefined();
+    expect(competition.id).toBe('d6d71995-f984-44f1-96d7-ccab7973cdd8');
+    expect(competition.typeOfRun).toBe('bieg uliczny');
+});
+
+test('CompetitionRecord.getOne returns null form database for unexisting entry.', async () => {
+    const competition = await CompetitionRecord.getOne('---');
+
+    expect(competition).toBeNull();
+});
 test('CompetitionRecord.listAll return data from database', async () => {
     const competition = await CompetitionRecord.listAll();
 
