@@ -1,3 +1,7 @@
 import {CompetitionEntity} from "./competition.entity";
+import {SimpleCompetitorEntity} from "../competitor";
 
-export type CreateCompetitionReq = Omit<CompetitionEntity, 'id'>;
+export interface GetSingleCompetitionRes {
+    competition: CompetitionEntity;
+    competitorsList: SimpleCompetitorEntity[];
+}
